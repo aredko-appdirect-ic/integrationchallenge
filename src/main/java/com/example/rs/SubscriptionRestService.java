@@ -16,6 +16,7 @@ import com.example.services.SubscriptionService;
 public class SubscriptionRestService {
 	@Inject private SubscriptionService subscriptionService;	
 	
+	@Path( "/create" )
 	@Produces( { MediaType.APPLICATION_XML } )
 	@POST
 	public Response create( @QueryParam( "url" ) final String eventUrl ) {		
