@@ -56,6 +56,17 @@ public class AppDirectEventConsumer {
 		};
 	};
 	
+	public static BiFunction< Document, XPath, Subscription > deleteSubscription( final Function< String, Subscription > supplier ) {
+		return ( document, xpath ) -> {
+			try {
+				final String accountIdd = xpath.compile( "/event/payload/account/accountIdentifier" ).evaluate( document );
+				return supplier.apply( accountIdd );			
+			} catch( final Exception ex ) {
+				throw new RuntimeException( "Unable to interpret event payload", ex );
+			}				
+		};
+	};
+	
     public< T > T consume( final String eventXml, final BiFunction< Document, XPath, T > consumer ) throws IOException, ParserConfigurationException, SAXException {
     	final DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();    	
     	final DocumentBuilder builder = builderFactory.newDocumentBuilder();

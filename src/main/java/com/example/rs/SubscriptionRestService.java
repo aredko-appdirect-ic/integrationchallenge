@@ -28,7 +28,7 @@ public class SubscriptionRestService {
 			final String eventXml = connector.get( eventUrl );
 			
 			final Subscription subscription = consumer.consume( eventXml, 
-			    AppDirectEventConsumer.newSubscription( () -> subscriptionService.addNewSubscription() ) );
+			    AppDirectEventConsumer.newSubscription( () -> subscriptionService.addNew() ) );
 			
 			return Response.ok( Result
 			    .successful( "Subscription created successfuly" )
@@ -48,7 +48,28 @@ public class SubscriptionRestService {
 			
 			final Subscription subscription = consumer.consume( eventXml, 
 			    AppDirectEventConsumer.updateSubscription( 
-			        ( suscriptionId ) -> subscriptionService.getSubscription( suscriptionId) ) );
+			        ( suscriptionId ) -> subscriptionService.find( suscriptionId) ) );
+			
+			if( subscription == null ) {
+				return Response.ok( Result.fail( "Subscription does not exist", "ACCOUNT_NOT_FOUND" ) ).build();
+			}
+			
+			return Response.ok( Result.successful( "Subscription updated successfuly" )	).build();
+		} catch( final Exception ex ) {
+			return Response.ok( Result.fail( ex ) ).build();
+		}		
+	}
+	
+	@Path( "/cancel" )
+	@Produces( { MediaType.APPLICATION_XML } )
+	@GET
+	public Response delete( @QueryParam( "url" ) final String eventUrl ) {
+		try {				
+			final String eventXml = connector.get( eventUrl );
+			
+			final Subscription subscription = consumer.consume( eventXml, 
+			    AppDirectEventConsumer.deleteSubscription( 
+			        ( suscriptionId ) -> subscriptionService.remove( suscriptionId ) ) );
 			
 			if( subscription == null ) {
 				return Response.ok( Result.fail( "Subscription does not exist", "ACCOUNT_NOT_FOUND" ) ).build();
@@ -63,7 +84,7 @@ public class SubscriptionRestService {
 	@Produces( { MediaType.APPLICATION_JSON } )
 	@GET
 	public Response list() {
-		return Response.ok( subscriptionService.getSubscriptions() ).build();
+		return Response.ok( subscriptionService.getAll() ).build();
 	}
 
 }

@@ -14,17 +14,21 @@ public class SubscriptionService {
 	private Map< String, Subscription > subscriptions = 
 			new ConcurrentHashMap<String, Subscription>(); 
 	
-	public Subscription addNewSubscription() {
+	public Subscription addNew() {
 		final Subscription subscription =  new Subscription( UUID.randomUUID().toString() );
 		subscriptions.putIfAbsent( subscription.getId(), subscription );
 		return subscription;
 	}
 	
-	public Subscription getSubscription( final String id ) {
+	public Subscription find( final String id ) {
 		return subscriptions.getOrDefault( id, null );
 	}
 	
-	public Collection< Subscription > getSubscriptions() {
+	public Subscription remove( final String id ) {
+		return subscriptions.remove( id );
+	}
+	
+	public Collection< Subscription > getAll() {
 		return subscriptions.values();
 	}
 }
