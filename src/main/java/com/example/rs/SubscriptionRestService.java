@@ -29,7 +29,7 @@ public class SubscriptionRestService {
 			connector.get( eventUrl );
 			return Response.ok( Result.successful( "Subscription created successfuly" ) ).build();
 		} catch( final Exception ex ) {
-			return Response.ok( Result.fail( ex ) ).build();
+			return Response.ok( Result.fail( ex, AppDirectConnector.ERROR_SUBSCRIPTION_ORDER ) ).build();
 		}		
 	}
 }

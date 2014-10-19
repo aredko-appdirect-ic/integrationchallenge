@@ -17,6 +17,8 @@ import oauth.signpost.exception.OAuthException;
 public class AppDirectConnector {
 	private static final Logger LOG = Logger.getLogger( AppDirectConnector.class.getName() );
 	
+	public static final int ERROR_SUBSCRIPTION_ORDER = 1000;
+	
 	private final String oauthConsumerKey = "integrationchallenge-15821";
 	private final String oauthConsumerSecret = "LUtZSr5RrIQ2Ln84";
 	private final String endpoint = "https://www.appdirect.com/rest/api/";	
@@ -31,8 +33,10 @@ public class AppDirectConnector {
 		consumer.sign( request );
 		request.connect();
 		
-		try {		
-			return request.getContent();
+		try {
+			Object response = request.getContent();
+			LOG.info( "Response received:" + response );
+			return response;
 		} finally {
 			request.disconnect();
 		}
