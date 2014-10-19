@@ -39,9 +39,8 @@
         };   
     	
         $( document ).ready(function(e) {    	
-        	if( document.location.contains( "rhcloud.com" ) ) {
-        		url = "/rest/api/subscription";
-            } else {
+        	var url = "/rest/api/subscription";
+        	if( document.location.href.indexOf( "rhcloud.com" ) == -1 ) {        		
             	url = "/integrationchallenge" + url;  
             }
         	
