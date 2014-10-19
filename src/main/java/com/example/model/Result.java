@@ -4,16 +4,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement( name = "result" )
 public class Result {
-	private boolean success;
+	private Boolean success;
 	private String message;
 	private String errorCode;
 	private String accountIdentifier;
 	
-	public boolean isSuccess() {
+	public Boolean isSuccess() {
 		return success;
 	}
 	
-	public void setSuccess(boolean success) {
+	public void setSuccess(Boolean success) {
 		this.success = success;
 	}
 	

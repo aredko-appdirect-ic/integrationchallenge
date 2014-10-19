@@ -54,10 +54,7 @@ public class SubscriptionRestService {
 				return Response.ok( Result.fail( "Subscription does not exist", "ACCOUNT_NOT_FOUND" ) ).build();
 			}
 			
-			return Response.ok( Result
-			    .successful( "Subscription created successfuly" )
-			    .withAccountIdentifier( subscription.getId() ) 
-			).build();
+			return Response.ok( Result.successful( "Subscription updated successfuly" )	).build();
 		} catch( final Exception ex ) {
 			return Response.ok( Result.fail( ex ) ).build();
 		}		
