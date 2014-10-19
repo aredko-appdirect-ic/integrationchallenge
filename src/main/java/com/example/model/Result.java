@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Result {
 	private boolean success;
 	private String message;
-	private int errorCode;
+	private String errorCode;
 	private String accountIdentifier;
 	
 	public boolean isSuccess() {
@@ -29,7 +29,6 @@ public class Result {
 		final Result result = new Result();
 		result.setSuccess( true );
 		result.setMessage( message );
-		result.setErrorCode( 0 );
 		return result;
 	}
 	
@@ -37,15 +36,15 @@ public class Result {
 		final Result result = new Result();
 		result.setSuccess( false );
 		result.setMessage( ex.getMessage() );
-		result.setErrorCode( errorCode );
+		result.setErrorCode( "UNKNOWN_ERROR" );
 		return result;
 	}
 
-	public int getErrorCode() {
+	public String getErrorCode() {
 		return errorCode;
 	}
 
-	public void setErrorCode(int errorCode) {
+	public void setErrorCode(String errorCode) {
 		this.errorCode = errorCode;
 	}
 	
