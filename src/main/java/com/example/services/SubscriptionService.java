@@ -20,6 +20,10 @@ public class SubscriptionService {
 		return subscription;
 	}
 	
+	public Subscription getSubscription( final String id ) {
+		return subscriptions.getOrDefault( id, null );
+	}
+	
 	public Collection< Subscription > getSubscriptions() {
 		return subscriptions.values();
 	}

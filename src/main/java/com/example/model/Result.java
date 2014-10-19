@@ -32,7 +32,15 @@ public class Result {
 		return result;
 	}
 	
-	public static Result fail( final Throwable ex, final int errorCode ) {
+	public static Result fail( final String message, final String errorCode ) {
+		final Result result = new Result();
+		result.setSuccess( false );
+		result.setMessage( message );
+		result.setErrorCode( errorCode );
+		return result;
+	}
+	
+	public static Result fail( final Throwable ex ) {
 		final Result result = new Result();
 		result.setSuccess( false );
 		result.setMessage( ex.getMessage() );

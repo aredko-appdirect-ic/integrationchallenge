@@ -18,8 +18,6 @@ import oauth.signpost.exception.OAuthException;
 public class AppDirectConnector {
 	private static final Logger LOG = Logger.getLogger( AppDirectConnector.class.getName() );
 	
-	public static final int ERROR_SUBSCRIPTION_ORDER = 1000;
-	
 	private final String oauthConsumerKey = "integrationchallenge-15821";
 	private final String oauthConsumerSecret = "LUtZSr5RrIQ2Ln84";
 	

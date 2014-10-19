@@ -18,6 +18,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.example.model.Subscription;
+import com.google.common.base.Function;
 
 @Named
 public class AppDirectEventConsumer {
@@ -31,6 +32,24 @@ public class AppDirectEventConsumer {
 				newSubscription.setLastName( xpath.compile( "/event/creator/lastName" ).evaluate( document ) );
 				
 				return newSubscription;
+			} catch( final Exception ex ) {
+				throw new RuntimeException( "Unable to interpret event payload", ex );
+			}				
+		};
+	};
+	
+	public static BiFunction< Document, XPath, Subscription > updateSubscription( final Function< String, Subscription > supplier ) {
+		return ( document, xpath ) -> {
+			try {
+				final String accountIdd = xpath.compile( "/event/payload/account/accountIdentifier" ).evaluate( document );
+				
+				final Subscription subscription = supplier.apply( accountIdd );			
+				if( subscription != null ) {
+					subscription.setFirstName( xpath.compile( "/event/creator/firstName" ).evaluate( document ) );
+					subscription.setLastName( xpath.compile( "/event/creator/lastName" ).evaluate( document ) );
+				}
+				
+				return subscription;
 			} catch( final Exception ex ) {
 				throw new RuntimeException( "Unable to interpret event payload", ex );
 			}				
