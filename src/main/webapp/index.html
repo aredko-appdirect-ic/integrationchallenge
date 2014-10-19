@@ -20,9 +20,11 @@
 			</div>
 		</div>
 	</nav>
+	
+	<div class="fluent-container" id="results">
+    </div>
     
     <script type="text/javascript">
-        $( "#any" ).prop( "checked", true );
     
         function handleError(request, status, error, form) {
 			$( "#error-message" ).removeClass('hide');
@@ -32,111 +34,58 @@
 			} else {
 				if( request.status == 500 ) {
 					$( "#error-message" ).html( 'Internal server error.' );
-				} else if( request.status == 409 ) {
-					$( "#error-message" ).html( 'Document with such name already exists.' );
-				} else if( request.status == 400 ) {
-					$( "#error-message" ).html( 'No documents for upload, please select at least one.' );
-				}
+				} 
 			}
-        };
-    
-    	$( "#form" ).submit(function(e) {    		
-    		var formData = new FormData( $(this)[0] );
-    		$( "#error-message" ).addClass('hide');    		
-
+        };   
+    	
+        $( document ).ready(function(e) {    	
+        	if( document.location.containbs( rhcloud.com ) ) {
+        		url = "/rest/api/subscription";
+            } else {
+            	url = "/integrationchallenge" + url;  
+            }
+        	
     		$.ajax({
-    			url:$(this).attr("action"),
-    			type: 'POST',
-    			data: formData,
+    			url: url,
+    			type: 'GET',
     			async: false,
     			success: function (data) {
-    			    $('#file').fileinput('clear');
+    				var table = "\
+    				<table class=\"table table-striped\">\
+    			    <thead>\
+    			        <tr>\
+    			            <th>First Name</th>\
+    			            <th>Last Name</th>\
+    			            <th>Email</th>\
+    			        </tr>\
+    			    </thead>\
+    			    <tbody>";	    			    
+    				
+    				$.each(data, function (index, value) {
+    					table += "\
+    					<tr>\
+    		                <td>" + value.firstName + "</td>\
+    		                <td>" + value.lastName + "</td>\
+    		                <td>" + value.email + "</td>\
+    		            </tr>";
+    				});
+
+    				table += "\
+    	    	    </tbody>\
+    	    		</table>";
+    	    		
+    				$( "#results" ).html(table);
+    		
     			},
     			error: function (request, status, error) {
-    				handleError(request, status, error, "#form");
+    				handleError(request, status, error, "#form-search");
     			},
 	    		cache: false,
     			contentType: false,
     			processData: false
     		});
-    			        
-	        e.preventDefault();
-	        return false;
-	    });
-    	
-    	$( "#form-search" ).submit(function(e) {    		
-    		var query = $( "#search-query" ).val().trim();
-    		$( "#error-message" ).addClass('hide');
-    		$( "#results" ).html("");
-    		
-    		if( query !== "" ) {
-    			var contentQuery = "";
-    			var wildcardsQuery = "";
-    			
-    			if( $( "#all" ).is( ":checked" ) ) {
-    				contentQuery += "(";
-
-    				query.split( " " ).forEach( function( entry ) {
-    					if( contentQuery.length > 1 ) contentQuery += ";";
-    					contentQuery += "ct==" + encodeURIComponent( entry );
-        			} );
-
-    				contentQuery += ")";
-    			} else {
-    				contentQuery = "ct==" + encodeURIComponent( query );
-    			    			
-    				query.split( " " ).forEach( function( entry ) {    				
-    					wildcardsQuery += ",source==" + encodeURIComponent( "*" + entry + "*" );
-    			    } );
-    			}
-    			
-    			var encodedWildcardsQuery = encodeURIComponent( wildcardsQuery.trim() );
-    			var filter = contentQuery + wildcardsQuery;
-
-	    		$.ajax({
-	    			url: $(this).attr("action") + "?$filter=" + filter,
-	    			type: 'GET',
-	    			async: false,
-	    			success: function (data) {
-	    				var table = "\
-	    				<table class=\"table table-striped\">\
-	    			    <thead>\
-	    			        <tr>\
-	    			            <th>File</th>\
-	    			            <th>Score</th>\
-	    			            <th>Action</th>\
-	    			        </tr>\
-	    			    </thead>\
-	    			    <tbody>";	    			    
-	    				
-	    				$.each(data, function (index, value) {
-	    					table += "\
-	    					<tr>\
-	    		                <td>" + value.source + "</td>\
-	    		                <td>" + value.score + "</td>\
-	    		                <td><a href='" + value.url + "'>Download</a></td>\
-	    		            </tr>";
-	    				});
-
-	    				table += "\
-	    	    	    </tbody>\
-	    	    		</table>";
-	    	    		
-	    				$( "#results" ).html(table);
-	    		
-	    			},
-	    			error: function (request, status, error) {
-	    				handleError(request, status, error, "#form-search");
-	    			},
-		    		cache: false,
-	    			contentType: false,
-	    			processData: false
-	    		});
-    	    }
-    			        
-	        e.preventDefault();
-	        return false;
-	    });
+    	}
+      );
     </script>
 </body>
 </html>

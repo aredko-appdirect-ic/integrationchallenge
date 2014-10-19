@@ -38,4 +38,11 @@ public class SubscriptionRestService {
 			return Response.ok( Result.fail( ex, AppDirectConnector.ERROR_SUBSCRIPTION_ORDER ) ).build();
 		}		
 	}
+	
+	@Produces( { MediaType.APPLICATION_JSON } )
+	@GET
+	public Response list() {
+		return Response.ok( subscriptionService.getSubscriptions() ).build();
+	}
+
 }
