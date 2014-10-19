@@ -23,7 +23,7 @@ public class AppDirectConnector {
 	private final String oauthConsumerKey = "integrationchallenge-15821";
 	private final String oauthConsumerSecret = "LUtZSr5RrIQ2Ln84";
 	
-	public Object get( final String eventUrl ) throws IOException, OAuthException {
+	public String get( final String eventUrl ) throws IOException, OAuthException {
 		final OAuthConsumer consumer = new DefaultOAuthConsumer( oauthConsumerKey, oauthConsumerSecret );
 		
 		final URL url = new URL( eventUrl );
@@ -46,8 +46,9 @@ public class AppDirectConnector {
 				}
 			}
 			
-			LOG.info( "Response received:" + sb.toString() );
-			return sb.toString();
+			final String xml = sb.toString();
+			LOG.info( "Response received: " + xml );
+			return xml;
 		} finally {
 			request.disconnect();
 		}

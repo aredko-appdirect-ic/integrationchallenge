@@ -7,6 +7,7 @@ public class Result {
 	private boolean success;
 	private String message;
 	private int errorCode;
+	private String accountIdentifier;
 	
 	public boolean isSuccess() {
 		return success;
@@ -46,5 +47,18 @@ public class Result {
 
 	public void setErrorCode(int errorCode) {
 		this.errorCode = errorCode;
+	}
+	
+	public String getAccountIdentifier() {
+		return accountIdentifier;
+	}
+
+	public void setAccountIdentifier(String accountIdentifier) {
+		this.accountIdentifier = accountIdentifier;
+	}
+	
+	public Result withAccountIdentifier( final String accountIdentifier ) {
+		setAccountIdentifier( accountIdentifier );
+		return this;
 	}
 }
