@@ -12,7 +12,7 @@ import com.example.model.Subscription;
 @Named
 public class SubscriptionService {
 	private Map< String, Subscription > subscriptions = 
-			new ConcurrentHashMap<String, Subscription>(); 
+		new ConcurrentHashMap<String, Subscription>(); 
 	
 	public Subscription addNew() {
 		final Subscription subscription =  new Subscription( UUID.randomUUID().toString() );

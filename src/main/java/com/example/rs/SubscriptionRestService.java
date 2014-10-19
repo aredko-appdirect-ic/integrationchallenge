@@ -1,5 +1,7 @@
 package com.example.rs;
 
+import java.util.logging.Logger;
+
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -16,6 +18,8 @@ import com.example.services.SubscriptionService;
 
 @Path( "/subscription" )
 public class SubscriptionRestService {
+	private static final Logger LOG = Logger.getLogger( SubscriptionRestService.class.getName() );
+	
 	@Inject private SubscriptionService subscriptionService;
 	@Inject private AppDirectConnector connector;
 	@Inject private AppDirectEventConsumer consumer;
@@ -24,6 +28,8 @@ public class SubscriptionRestService {
 	@Produces( { MediaType.APPLICATION_XML } )
 	@GET
 	public Response create( @QueryParam( "url" ) final String eventUrl ) {
+		LOG.info( "Subscription create notification received" );
+		
 		try {				
 			final String eventXml = connector.get( eventUrl );
 			
@@ -43,6 +49,8 @@ public class SubscriptionRestService {
 	@Produces( { MediaType.APPLICATION_XML } )
 	@GET
 	public Response update( @QueryParam( "url" ) final String eventUrl ) {
+		LOG.info( "Subscription change notification received" );
+		
 		try {				
 			final String eventXml = connector.get( eventUrl );
 			
@@ -64,6 +72,8 @@ public class SubscriptionRestService {
 	@Produces( { MediaType.APPLICATION_XML } )
 	@GET
 	public Response delete( @QueryParam( "url" ) final String eventUrl ) {
+		LOG.info( "Subscription cancelation notification received" );
+		
 		try {				
 			final String eventXml = connector.get( eventUrl );
 			
