@@ -13,12 +13,12 @@ public class UserService {
     private Map< String, User > users = new ConcurrentHashMap<String, User>(); 
     
     public User add( final User user ) {
-        users.putIfAbsent( user.getId(), user );
+        users.putIfAbsent( user.getOpenIdUrl(), user );
         return user;
     }
         
-    public User find( final String id ) {
-        return users.get( id );
+    public User find( final String openIdUrl ) {
+        return users.get( openIdUrl );
     }
     
     public User remove( final String id ) {

@@ -84,8 +84,18 @@ public class AppDirectEventConsumer {
     public static BiFunction< Document, XPath, User > unassignUser( final Function< String, User > supplier ) {
         return ( document, xpath ) -> {
             try {
-                final String accountId = xpath.compile( "/event/payload/account/accountIdentifier" ).evaluate( document );
-                return supplier.apply( accountId );                         
+                final String opseIdUrl = xpath.compile( "/event/payload/user/openId" ).evaluate( document );
+                final User user = supplier.apply( opseIdUrl );
+                
+                if( user != null ) {
+                    final String accountId =  xpath.compile( "/event/payload/account/accountIdentifier" ).evaluate( document );
+                    
+                    if( user.getSubscription().getId().equalsIgnoreCase(accountId ) ) {                                                                
+                        return user;
+                    }
+                }               
+                
+                return null;
             } catch( final Exception ex ) {
                 throw new RuntimeException( "Unable to interpret event payload", ex );
             }               

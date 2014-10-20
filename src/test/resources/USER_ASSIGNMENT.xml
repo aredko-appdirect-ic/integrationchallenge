@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<event>
+	<creator>
+		<email>dr_reta@yahoo.com</email>
+		<firstName>Andriy</firstName>
+		<language>en</language>
+		<lastName>Redko</lastName>
+		<openId>https://www.appdirect.com/openid/id/5291885c-a929-44a4-8401-7d74391b883a</openId>
+		<uuid>5291885c-a929-44a4-8401-7d74391b883a</uuid>
+	</creator>
+	<flag>DEVELOPMENT</flag>
+	<marketplace>
+		<baseUrl>https://www.appdirect.com</baseUrl>
+		<partner>APPDIRECT</partner>
+	</marketplace>
+	<payload>
+		<account>
+			<accountIdentifier>2dcf86aa-a20b-4765-82b6-5aab5f48d41a</accountIdentifier>
+			<status>ACTIVE</status>
+		</account>
+		<configuration />
+		<user>
+			<email>test-email+creator@appdirect.com</email>
+			<firstName>DummyCreatorFirst</firstName>
+			<language>en</language>
+			<lastName>DummyCreatorLast</lastName>
+			<openId>https://www.appdirect.com/openid/id/8272951b-1da9-4519-99b1-2b2cbd1db3ed</openId>
+			<uuid>8272951b-1da9-4519-99b1-2b2cbd1db3ed</uuid>
+		</user>
+	</payload>
+	<type>USER_ASSIGNMENT</type>
+</event>
