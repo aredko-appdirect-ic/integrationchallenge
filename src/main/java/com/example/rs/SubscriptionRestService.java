@@ -12,9 +12,11 @@ import javax.ws.rs.core.Response;
 
 import com.example.model.Result;
 import com.example.model.Subscription;
+import com.example.model.User;
 import com.example.services.AppDirectConnector;
 import com.example.services.AppDirectEventConsumer;
 import com.example.services.SubscriptionService;
+import com.example.services.UserService;
 
 @Path( "/subscription" )
 public class SubscriptionRestService {
@@ -23,6 +25,7 @@ public class SubscriptionRestService {
 	@Inject private SubscriptionService subscriptionService;
 	@Inject private AppDirectConnector connector;
 	@Inject private AppDirectEventConsumer consumer;
+	@Inject private UserService userService;
 	
 	@Path( "/create" )
 	@Produces( { MediaType.APPLICATION_XML } )
@@ -33,12 +36,13 @@ public class SubscriptionRestService {
 		try {				
 			final String eventXml = connector.get( eventUrl );
 			
-			final Subscription subscription = consumer.consume( eventXml, 
-			    AppDirectEventConsumer.newSubscription( () -> subscriptionService.add() ) );
+			final User user = consumer.consume( eventXml, 
+			    AppDirectEventConsumer.newSubscription( () -> subscriptionService.add() ) );			
+			userService.add( user );
 			
 			return Response.ok( Result
 			    .successful( "Subscription created successfully" )
-			    .withAccountIdentifier( subscription.getId() ) 
+			    .withAccountIdentifier( user.getSubscription().getId() ) 
 			).build();
 		} catch( final Exception ex ) {
 			return Response.ok( Result.fail( ex ) ).build();

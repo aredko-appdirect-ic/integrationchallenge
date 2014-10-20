@@ -23,16 +23,18 @@ import com.google.common.base.Function;
 
 @Named
 public class AppDirectEventConsumer {
-	public static BiFunction< Document, XPath, Subscription > newSubscription( final Supplier< Subscription > supplier ) {
+	public static BiFunction< Document, XPath, User > newSubscription( final Supplier< Subscription > supplier ) {
 		return ( document, xpath ) -> {
 			try {
-				final Subscription newSubscription = supplier.get();						
+				final Subscription subscription = supplier.get();						
 				
-				newSubscription.setEmail( xpath.compile( "/event/creator/email" ).evaluate( document ) );
-				newSubscription.setFirstName( xpath.compile( "/event/creator/firstName" ).evaluate( document ) );
-				newSubscription.setLastName( xpath.compile( "/event/creator/lastName" ).evaluate( document ) );
+				final User user = new User( subscription );
+				user.setEmail( xpath.compile( "/event/creator/email" ).evaluate( document ) );
+				user.setFirstName( xpath.compile( "/event/creator/firstName" ).evaluate( document ) );
+				user.setLastName( xpath.compile( "/event/creator/lastName" ).evaluate( document ) );
+				user.setOpenIdUrl( xpath.compile( "/event/creator/lastName" ).evaluate( document ) );
 				
-				return newSubscription;
+				return user;
 			} catch( final Exception ex ) {
 				throw new RuntimeException( "Unable to interpret event payload", ex );
 			}				
@@ -43,14 +45,7 @@ public class AppDirectEventConsumer {
 		return ( document, xpath ) -> {
 			try {
 				final String accountId = xpath.compile( "/event/payload/account/accountIdentifier" ).evaluate( document );
-				
-				final Subscription subscription = supplier.apply( accountId );			
-				if( subscription != null ) {
-					subscription.setFirstName( xpath.compile( "/event/creator/firstName" ).evaluate( document ) );
-					subscription.setLastName( xpath.compile( "/event/creator/lastName" ).evaluate( document ) );
-				}
-				
-				return subscription;
+				return supplier.apply( accountId );			
 			} catch( final Exception ex ) {
 				throw new RuntimeException( "Unable to interpret event payload", ex );
 			}				

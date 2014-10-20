@@ -26,12 +26,12 @@ public class AppDirectEventConsumerTest {
 		final String eventXml = IOUtils.toString( getClass().getResourceAsStream( "/SUBSCRIPTION_ORDER.xml" ), 
 			StandardCharsets.UTF_8 );
 		
-		final Subscription subscription = consumer.consume( eventXml, 
+		final User user = consumer.consume( eventXml, 
 	        AppDirectEventConsumer.newSubscription( () -> new Subscription() ) );
 		
-		assertThat( subscription.getFirstName(), equalTo( "DummyCreatorFirst" ) );
-		assertThat( subscription.getLastName(), equalTo( "DummyCreatorLast" ) );
-		assertThat( subscription.getEmail(), equalTo( "test-email+creator@appdirect.com" ) );
+		assertThat( user.getFirstName(), equalTo( "DummyCreatorFirst" ) );
+		assertThat( user.getLastName(), equalTo( "DummyCreatorLast" ) );
+		assertThat( user.getEmail(), equalTo( "test-email+creator@appdirect.com" ) );
 	}
 	
 	   @Test 
