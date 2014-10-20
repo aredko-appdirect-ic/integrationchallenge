@@ -32,7 +32,7 @@ public class AppDirectEventConsumer {
 				user.setEmail( xpath.compile( "/event/creator/email" ).evaluate( document ) );
 				user.setFirstName( xpath.compile( "/event/creator/firstName" ).evaluate( document ) );
 				user.setLastName( xpath.compile( "/event/creator/lastName" ).evaluate( document ) );
-				user.setOpenIdUrl( xpath.compile( "/event/creator/lastName" ).evaluate( document ) );
+				user.setOpenIdUrl( xpath.compile( "/event/creator/openId" ).evaluate( document ) );
 				
 				return user;
 			} catch( final Exception ex ) {
