@@ -1,7 +1,8 @@
 How to use
 ==============
 
-Regular WAR file: mvn clean package
+Regular WAR file: 
+- mvn clean package
 
 - http://localhost:8080/integrationchallenge/rest/api/subscription/create?url={eventUrl}
 - http://localhost:8080/integrationchallenge/rest/api/update?url={eventUrl}
