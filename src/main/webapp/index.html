@@ -49,6 +49,8 @@
 			} else {
 				if( request.status == 500 ) {
 					$( "#error-message" ).html( 'Internal server error.' );
+				} else if( request.status == 404 ) {
+					$( "#error-message" ).html( 'API is not deployed.' );
 				} 
 			}
         };   
