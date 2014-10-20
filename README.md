@@ -3,6 +3,7 @@ How to use
 
 Regular WAR file: 
 - Java 8
+- Maven 3.2.1+
 - mvn clean package
 
 Implemented event endpoints: 
