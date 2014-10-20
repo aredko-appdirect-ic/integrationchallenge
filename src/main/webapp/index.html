@@ -21,7 +21,18 @@
 		</div>
 	</nav>
 	
-	<div class="fluent-container" id="results">
+	<div class="page-header">
+  		<h3>Subscriptions</h3>
+	</div>
+	
+	<div class="fluent-container" id="subscriptions">
+    </div>
+
+	<div class="page-header">
+  		<h3>Users</h3>
+	</div>
+
+	<div class="fluent-container" id="users">
     </div>
     
     <script type="text/javascript">
@@ -30,15 +41,15 @@
 			$( "#error-message" ).removeClass('hide');
 			
 			if ( request.status === undefined || request.status === 0 ) {
-				$( "#error-message" ).html( "Unable to send request to the server: " + $(form).attr("action") );
+				$( "#error-message" ).html( "Unable to send request to the server" );
 			} else {
 				if( request.status == 500 ) {
 					$( "#error-message" ).html( 'Internal server error.' );
 				} 
 			}
         };   
-    	
-        $( document ).ready(function(e) {    	
+        
+        function listSubscriptions() {
         	var url = "/rest/api/subscription";
         	if( document.location.href.indexOf( "rhcloud.com" ) == -1 ) {        		
             	url = "/integrationchallenge" + url;  
@@ -73,16 +84,68 @@
     	    	    </tbody>\
     	    		</table>";
     	    		
-    				$( "#results" ).html(table);
+    				$( "#subscriptions" ).html(table);
     		
     			},
     			error: function (request, status, error) {
-    				handleError(request, status, error, "#form-search");
+    				handleError(request, status, error);
     			},
 	    		cache: false,
     			contentType: false,
     			processData: false
     		});
+        };
+        
+        function listUsers() {
+        	var url = "/rest/api/user";
+        	if( document.location.href.indexOf( "rhcloud.com" ) == -1 ) {        		
+            	url = "/integrationchallenge" + url;  
+            }
+        	
+    		$.ajax({
+    			url: url,
+    			type: 'GET',
+    			async: false,
+    			success: function (data) {
+    				var table = "\
+    				<table class=\"table table-striped\">\
+    			    <thead>\
+    			        <tr>\
+    			            <th>First Name</th>\
+    			            <th>Last Name</th>\
+    			            <th>Email</th>\
+    			        </tr>\
+    			    </thead>\
+    			    <tbody>";	    			    
+    				
+    				$.each(data, function (index, value) {
+    					table += "\
+    					<tr>\
+    		                <td>" + value.firstName + "</td>\
+    		                <td>" + value.lastName + "</td>\
+    		                <td>" + value.email + "</td>\
+    		            </tr>";
+    				});
+
+    				table += "\
+    	    	    </tbody>\
+    	    		</table>";
+    	    		
+    				$( "#users" ).html(table);
+    		
+    			},
+    			error: function (request, status, error) {
+    				handleError(request, status, error);
+    			},
+	    		cache: false,
+    			contentType: false,
+    			processData: false
+    		});
+        };
+    	
+        $( document ).ready(function(e) {
+        	listSubscriptions();
+        	listUsers();
     	}
       );
     </script>

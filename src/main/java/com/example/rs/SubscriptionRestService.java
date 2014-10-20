@@ -34,10 +34,10 @@ public class SubscriptionRestService {
 			final String eventXml = connector.get( eventUrl );
 			
 			final Subscription subscription = consumer.consume( eventXml, 
-			    AppDirectEventConsumer.newSubscription( () -> subscriptionService.addNew() ) );
+			    AppDirectEventConsumer.newSubscription( () -> subscriptionService.add() ) );
 			
 			return Response.ok( Result
-			    .successful( "Subscription created successfuly" )
+			    .successful( "Subscription created successfully" )
 			    .withAccountIdentifier( subscription.getId() ) 
 			).build();
 		} catch( final Exception ex ) {
@@ -56,13 +56,13 @@ public class SubscriptionRestService {
 			
 			final Subscription subscription = consumer.consume( eventXml, 
 			    AppDirectEventConsumer.updateSubscription( 
-			        ( suscriptionId ) -> subscriptionService.find( suscriptionId) ) );
+			        ( subscriptionId ) -> subscriptionService.find( subscriptionId ) ) );
 			
 			if( subscription == null ) {
 				return Response.ok( Result.fail( "Subscription does not exist", "ACCOUNT_NOT_FOUND" ) ).build();
 			}
 			
-			return Response.ok( Result.successful( "Subscription updated successfuly" )	).build();
+			return Response.ok( Result.successful( "Subscription updated successfully" )	).build();
 		} catch( final Exception ex ) {
 			return Response.ok( Result.fail( ex ) ).build();
 		}		
@@ -79,13 +79,13 @@ public class SubscriptionRestService {
 			
 			final Subscription subscription = consumer.consume( eventXml, 
 			    AppDirectEventConsumer.deleteSubscription( 
-			        ( suscriptionId ) -> subscriptionService.remove( suscriptionId ) ) );
+			        ( subscriptionId ) -> subscriptionService.remove( subscriptionId ) ) );
 			
 			if( subscription == null ) {
 				return Response.ok( Result.fail( "Subscription does not exist", "ACCOUNT_NOT_FOUND" ) ).build();
 			}
 			
-			return Response.ok( Result.successful( "Subscription updated successfuly" )	).build();
+			return Response.ok( Result.successful( "Subscription updated successfully" )	).build();
 		} catch( final Exception ex ) {
 			return Response.ok( Result.fail( ex ) ).build();
 		}		

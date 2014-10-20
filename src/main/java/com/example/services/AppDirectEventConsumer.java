@@ -18,6 +18,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.example.model.Subscription;
+import com.example.model.User;
 import com.google.common.base.Function;
 
 @Named
@@ -41,9 +42,9 @@ public class AppDirectEventConsumer {
 	public static BiFunction< Document, XPath, Subscription > updateSubscription( final Function< String, Subscription > supplier ) {
 		return ( document, xpath ) -> {
 			try {
-				final String accountIdd = xpath.compile( "/event/payload/account/accountIdentifier" ).evaluate( document );
+				final String accountId = xpath.compile( "/event/payload/account/accountIdentifier" ).evaluate( document );
 				
-				final Subscription subscription = supplier.apply( accountIdd );			
+				final Subscription subscription = supplier.apply( accountId );			
 				if( subscription != null ) {
 					subscription.setFirstName( xpath.compile( "/event/creator/firstName" ).evaluate( document ) );
 					subscription.setLastName( xpath.compile( "/event/creator/lastName" ).evaluate( document ) );
@@ -56,11 +57,46 @@ public class AppDirectEventConsumer {
 		};
 	};
 	
+   public static BiFunction< Document, XPath, User > assignUser( final Function< String, Subscription > supplier ) {
+        return ( document, xpath ) -> {
+            try {
+                final String accountId = xpath.compile( "/event/payload/account/accountIdentifier" ).evaluate( document );
+                
+                final Subscription subscription = supplier.apply( accountId );                         
+                if( subscription != null ) {
+                    final User user = new User( subscription );                    
+                    
+                    user.setFirstName( xpath.compile( "/event/payload/user/firstName" ).evaluate( document ) );
+                    user.setLastName( xpath.compile( "/event/payload/user/lastName" ).evaluate( document ) );
+                    user.setEmail( xpath.compile( "/event/payload/user/email" ).evaluate( document ) );
+                    user.setOpenIdUrl( xpath.compile( "/event/payload/user/openId" ).evaluate( document ) );
+                    
+                    return user;
+                }               
+                
+                return null;
+            } catch( final Exception ex ) {
+                throw new RuntimeException( "Unable to interpret event payload", ex );
+            }               
+        };
+    };
+    
+    public static BiFunction< Document, XPath, User > unassignUser( final Function< String, User > supplier ) {
+        return ( document, xpath ) -> {
+            try {
+                final String accountId = xpath.compile( "/event/payload/account/accountIdentifier" ).evaluate( document );
+                return supplier.apply( accountId );                         
+            } catch( final Exception ex ) {
+                throw new RuntimeException( "Unable to interpret event payload", ex );
+            }               
+        };
+    };
+
 	public static BiFunction< Document, XPath, Subscription > deleteSubscription( final Function< String, Subscription > supplier ) {
 		return ( document, xpath ) -> {
 			try {
-				final String accountIdd = xpath.compile( "/event/payload/account/accountIdentifier" ).evaluate( document );
-				return supplier.apply( accountIdd );			
+				final String accountId = xpath.compile( "/event/payload/account/accountIdentifier" ).evaluate( document );
+				return supplier.apply( accountId );			
 			} catch( final Exception ex ) {
 				throw new RuntimeException( "Unable to interpret event payload", ex );
 			}				
