@@ -1,12 +1,19 @@
 How to use
 ==============
 
-- curl http://localhost:8080/integration-challenge/rest/api/people -X POST -d "email=a@b.com&firstName=Tom&lastName=Knocker"
-- curl http://localhost:8080/integration-challenge/rest/api/people/a@b.com -X PUT -d "firstName=Tommy"
-- curl http://localhost:8080/integration-challenge/rest/api/people/a@b.com -X DELETE
-- curl http://localhost:8080/integration-challenge/rest/api/people
+Regular WAR file: mvn clean package
 
-- curl http://integrationchallenge-devmind.rhcloud.com/rest/api/people -X POST -d "email=a@b.com&firstName=Tom&lastName=Knocker"
-- curl http://integrationchallenge-devmind.rhcloud.com/rest/api/people/a@b.com -X PUT -d "firstName=Tommy"
-- curl http://integrationchallenge-devmind.rhcloud.com/rest/api/people/a@b.com -X DELETE
-- curl http://integrationchallenge-devmind.rhcloud.com/rest/api/people
+- http://localhost:8080/integrationchallenge/rest/api/subscription/create?url={eventUrl}
+- http://localhost:8080/integrationchallenge/rest/api/update?url={eventUrl}
+- http://localhost:8080/integrationchallenge/rest/api/cancel?url={eventUrl}
+- http://localhost:8080/integrationchallenge/rest/api/user/assign?url={eventUrl}
+- http://localhost:8080/integrationchallenge/rest/api/user/unassign?url={eventUrl}
+
+Cloud version deployed at: http://integrationchallenge-devmind.rhcloud.com/
+==============
+
+- http://integrationchallenge-devmind.rhcloud.com/rest/api/subscription/create?url={eventUrl}
+- http://integrationchallenge-devmind.rhcloud.com/rest/api/subscription/update?url={eventUrl}
+- http://integrationchallenge-devmind.rhcloud.com/rest/api/subscription/cancel?url={eventUrl}
+- http://integrationchallenge-devmind.rhcloud.com/rest/api/user/assign?url={eventUrl}
+- http://integrationchallenge-devmind.rhcloud.com/rest/api/user/unassign?url={eventUrl}
