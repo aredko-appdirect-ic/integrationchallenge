@@ -4,6 +4,7 @@ How to use
 Regular WAR file: 
 - mvn clean package
 
+Implemented event endpoints: 
 - http://localhost:8080/integrationchallenge/rest/api/subscription/create?url={eventUrl}
 - http://localhost:8080/integrationchallenge/rest/api/update?url={eventUrl}
 - http://localhost:8080/integrationchallenge/rest/api/cancel?url={eventUrl}
