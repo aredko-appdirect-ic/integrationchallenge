@@ -2,6 +2,7 @@ How to use
 ==============
 
 Regular WAR file: 
+- Java 8
 - mvn clean package
 
 Implemented event endpoints: 
