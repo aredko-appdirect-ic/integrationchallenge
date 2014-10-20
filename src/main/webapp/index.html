@@ -21,6 +21,10 @@
 		</div>
 	</nav>
 	
+	<div class="fluent-container" id="error">
+		<div class="alert alert-danger hide" role="alert" id="error-message"></div>	    	
+    </div>	
+	
 	<div class="page-header">
   		<h3>Subscriptions</h3>
 	</div>
@@ -37,7 +41,7 @@
     
     <script type="text/javascript">
     
-        function handleError(request, status, error, form) {
+        function handleError(request, status, error) {
 			$( "#error-message" ).removeClass('hide');
 			
 			if ( request.status === undefined || request.status === 0 ) {
@@ -67,6 +71,7 @@
     			            <th>First Name</th>\
     			            <th>Last Name</th>\
     			            <th>Email</th>\
+    			            <th>Id</th>\
     			        </tr>\
     			    </thead>\
     			    <tbody>";	    			    
@@ -77,6 +82,7 @@
     		                <td>" + value.firstName + "</td>\
     		                <td>" + value.lastName + "</td>\
     		                <td>" + value.email + "</td>\
+    		                <td>" + value.id + "</td>\
     		            </tr>";
     				});
 
