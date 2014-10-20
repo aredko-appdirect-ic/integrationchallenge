@@ -67,6 +67,7 @@ public class UserRestService {
 				return Response.ok( Result.fail( "User has no subscriptions", "ACCOUNT_NOT_FOUND" ) ).build();
 			}
 			
+			userService.remove( user.getOpenIdUrl() );
 			return Response.ok( Result.successful( "User unassigned successfully" )	).build();
 		} catch( final Exception ex ) {
 			return Response.ok( Result.fail( ex ) ).build();
