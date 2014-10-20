@@ -11,7 +11,7 @@ import com.example.model.Subscription;
 
 @Named
 public class SubscriptionService {
-	private Map< String, Subscription > subscriptions = 
+	private static final Map< String, Subscription > subscriptions = 
 		new ConcurrentHashMap<String, Subscription>(); 
 	
 	public Subscription add() {

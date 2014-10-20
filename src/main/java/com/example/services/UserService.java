@@ -10,7 +10,7 @@ import com.example.model.User;
 
 @Named
 public class UserService {
-    private Map< String, User > users = new ConcurrentHashMap<String, User>(); 
+    private static final Map< String, User > users = new ConcurrentHashMap<String, User>(); 
     
     public User add( final User user ) {
         users.putIfAbsent( user.getOpenIdUrl(), user );

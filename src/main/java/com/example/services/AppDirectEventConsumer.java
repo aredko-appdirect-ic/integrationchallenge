@@ -5,7 +5,6 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
-import java.util.logging.Logger;
 
 import javax.inject.Named;
 import javax.xml.parsers.DocumentBuilder;
@@ -24,8 +23,6 @@ import com.google.common.base.Function;
 
 @Named
 public class AppDirectEventConsumer {
-    private static final Logger LOG = Logger.getLogger( AppDirectEventConsumer.class.getName() );
-    
 	public static BiFunction< Document, XPath, Subscription > newSubscription( final Supplier< Subscription > supplier ) {
 		return ( document, xpath ) -> {
 			try {
@@ -64,11 +61,9 @@ public class AppDirectEventConsumer {
         return ( document, xpath ) -> {
             try {
                 final String accountId = xpath.compile( "/event/payload/account/accountIdentifier" ).evaluate( document );
-                LOG.info( "Looking for subscription: " + accountId );
                 
                 final Subscription subscription = supplier.apply( accountId );                                
                 if( subscription != null ) {
-                    LOG.info( "Subscription found successfully" );
                     final User user = new User( subscription );                    
                     
                     user.setFirstName( xpath.compile( "/event/payload/user/firstName" ).evaluate( document ) );
