@@ -89,6 +89,7 @@ public class SubscriptionRestService {
 				return Response.ok( Result.fail( "Subscription does not exist", "ACCOUNT_NOT_FOUND" ) ).build();
 			}
 			
+			userService.removeAllUsers( subscription.getId() );
 			return Response.ok( Result.successful( "Subscription updated successfully" )	).build();
 		} catch( final Exception ex ) {
 			return Response.ok( Result.fail( ex ) ).build();

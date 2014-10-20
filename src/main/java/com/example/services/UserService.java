@@ -1,8 +1,10 @@
 package com.example.services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import javax.inject.Named;
 
@@ -28,4 +30,16 @@ public class UserService {
     public Collection< User > getAll() {
         return users.values();
     }
+    
+    public void removeAllUsers( final String subscriptionId ) {
+        final Collection< String > removed = users
+           .entrySet()
+           .stream()
+           .filter( ( entry ) -> entry.getValue().getSubscription().getId().equalsIgnoreCase( subscriptionId ) )
+           .map( ( entry ) -> entry.getKey() )
+           .collect( Collectors.toCollection( ArrayList::new ) );   
+        
+        removed.forEach( ( id ) -> users.remove( id ) );        
+    }
+
 }
